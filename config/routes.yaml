@@ -22,3 +22,8 @@ article_remove:
   controller: App\Controller\BlogController::remove
   requirements:
     id: '\d+'
+
+app_register:
+  path: /register
+  controller: App\Controller\RegistrationController::register
+  

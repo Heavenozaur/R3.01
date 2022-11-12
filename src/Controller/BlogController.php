@@ -19,7 +19,7 @@ class BlogController extends AbstractController
     {
         $articles = $doctrine->getRepository(Article::class)->findBy(
             ['isPublished' => true],
-            ['publicationDate' => 'desc']
+            ['publication_date' => 'desc']
         );
 
         return $this->render('index.html.twig', ['articles' => $articles]);
@@ -67,7 +67,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/show/{slug}", name="show_article")
+     * @Route("/show/{slug}", name="article_show")
      */
     public function show(Article $article)
     {
@@ -76,6 +76,7 @@ class BlogController extends AbstractController
 
 
 
+    
     public function edit(Article $article, Request $request, PersistenceManagerRegistry $doctrine)
     {
         $oldPicture = $article->getPicture();

@@ -2,55 +2,67 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: ArticleRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ */
 class Article
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $picture = null;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
     /**
-     * @Assert\NotBlank(message="Ce champ ne peut pas etre vide.")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picture;
+
+    /**
+     * @Assert\NotBlank(message="Le titre ne peut pas être vide.")
      * @ORM\Column(type="string", length=255)
      */
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $content = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $publicationDate = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $lastUpdateDate = null;
-
-    #[ORM\Column]
-    private ?bool $isPublished = null;
-
-
-    
+    private $title;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $slug;
+    private $content;
+
+
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $last_update_date;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $publication_date;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $isPublished;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="articles")
+     */
+    private $categories;
+
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
-        $this->createdAt = new \DateTime;
+        $this->publication_date = new \DateTime;
         $this->isPublished = false;
     }
 
@@ -95,38 +107,27 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+
+    public function getLastUpdateDate(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->last_update_date;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setLastUpdateDate(?\DateTimeInterface $last_update_date): self
     {
-        $this->createdAt = $createdAt;
+        $this->last_update_date = $last_update_date;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getPublicationDate(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->publication_date;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setpublicationDate(?\DateTimeInterface $publication_date): self
     {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getPublishedAt(): ?\DateTimeInterface
-    {
-        return $this->publishedAt;
-    }
-
-    public function setPublishedAt(?\DateTimeInterface $publishedAt): self
-    {
-        $this->publishedAt = $publishedAt;
+        $this->publication_date = $publication_date;
 
         return $this;
     }
@@ -143,26 +144,38 @@ class Article
         return $this;
     }
 
-    public function getPublicationDate(): ?\DateTimeInterface
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
     {
-        return $this->publicationDate;
+        return $this->categories;
     }
 
-    public function setPublicationDate(?\DateTimeInterface $publicationDate): self
+    public function addCategory(Category $category): self
     {
-        $this->publicationDate = $publicationDate;
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
 
         return $this;
     }
 
-    public function getLastUpdateDate(): ?\DateTimeInterface
+    public function removeCategory(Category $category): self
     {
-        return $this->lastUpdateDate;
+        $this->categories->removeElement($category);
+
+        return $this;
     }
 
-    public function setLastUpdateDate(\DateTimeInterface $lastUpdateDate): self
+    public function getSlug(): ?string
     {
-        $this->lastUpdateDate = $lastUpdateDate;
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
