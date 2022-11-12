@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class BlogController extends AbstractController
 {
@@ -25,6 +28,10 @@ class BlogController extends AbstractController
         return $this->render('index.html.twig', ['articles' => $articles]);
     }
 
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function add(Request $request, PersistenceManagerRegistry $doctrine)
     {
         $article = new Article();
@@ -58,13 +65,20 @@ class BlogController extends AbstractController
             $em->persist($article); 
             $em->flush(); 
 
-            return new Response('L\'article a bien &#xE9;t&#xE9; enregistré.');
+            $articles = $doctrine->getRepository(Article::class)->findBy(
+                ['isPublished' => true],
+                ['publication_date' => 'desc']
+            );
+    
+            return $this->render('index.html.twig', ['articles' => $articles]);
         }
 
         return $this->render('add.html.twig', [
             'form' => $form->createView()
         ]);
     }
+
+    
 
     /**
      * @Route("/show/{slug}", name="article_show")
@@ -76,7 +90,9 @@ class BlogController extends AbstractController
 
 
 
-    
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function edit(Article $article, Request $request, PersistenceManagerRegistry $doctrine)
     {
         $oldPicture = $article->getPicture();
@@ -113,7 +129,18 @@ class BlogController extends AbstractController
             $em->persist($article);
             $em->flush();
 
-            return new Response('L\'article a bien &#xE9;t&#xE9; modifié.');
+            $articles = $doctrine->getRepository(Article::class)->findBy(
+                [],
+                ['last_update_date' => 'desc']
+            );
+    
+            $users = $doctrine->getRepository(User::class)->findAll();
+    
+            return $this->render('admin/index.html.twig', [
+                'articles' => $articles,
+                'users' => $users
+            ]);
+        
         }
 
         return $this->render('edit.html.twig', [
@@ -122,8 +149,46 @@ class BlogController extends AbstractController
         ]);
     }
 
-    public function remove($id)
+    public function admin(PersistenceManagerRegistry $doctrine)
     {
-        return new Response('<h1>Delete article: ' .$id. '</h1>');
+        $articles = $doctrine->getRepository(Article::class)->findBy(
+            [],
+            ['last_update_date' => 'desc']
+        );
+
+        $users = $doctrine->getRepository(User::class)->findAll();
+
+        return $this->render('admin/index.html.twig', [
+            'articles' => $articles,
+            'users' => $users
+        ]);
     }
+
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function remove(Article $article, Request $request, PersistenceManagerRegistry $doctrine)
+    {
+
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->remove($article);
+        //flush the modifications
+        $entityManager->flush();
+
+        
+
+        $articles = $doctrine->getRepository(Article::class)->findBy(
+            [],
+            ['last_update_date' => 'desc']
+        );
+
+        $users = $doctrine->getRepository(User::class)->findAll();
+
+        return $this->render('admin/index.html.twig', [
+            'articles' => $articles,
+            'users' => $users
+        ]);
+    }
+    
 }

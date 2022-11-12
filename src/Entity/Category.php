@@ -18,7 +18,7 @@ class Category
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

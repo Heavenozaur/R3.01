@@ -23,7 +23,22 @@ article_remove:
   requirements:
     id: '\d+'
 
+admin:
+  path: /admin
+  controller: App\Controller\BlogController::admin
+
 app_register:
   path: /register
   controller: App\Controller\RegistrationController::register
-  
+
+app_login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+
+app_logout:
+  path: /logout
+  controller: App\Controller\SecurityController::logout
+
+admin_remove_user:
+  path: /remove_user/{id}
+  controller: App\Controller\RegistrationController::removeUser

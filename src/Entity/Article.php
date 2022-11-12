@@ -36,8 +36,6 @@ class Article
      */
     private $content;
 
-
-
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -57,6 +55,8 @@ class Article
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="articles")
      */
     private $categories;
+
+
 
 
     public function __construct()
@@ -168,15 +168,4 @@ class Article
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
 }

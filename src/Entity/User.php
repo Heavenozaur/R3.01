@@ -5,12 +5,14 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface,PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id()
@@ -62,6 +64,16 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
     public function getUsername(): string
     {
         return $this->username;
@@ -89,6 +101,15 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRoles(string $roles): self
+    {
+        if (!in_array($roles, $this->roles)) {
+            $this->roles[] = $roles;
+        }
 
         return $this;
     }
