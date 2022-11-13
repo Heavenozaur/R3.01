@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}Blog nul{% endblock %}</title>
+    <title>{% block title %}7355608{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {% block stylesheets %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+       <link rel="stylesheet" type="text/css" href="{{ asset('asset/css/materialize.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('asset/css/app.css') }}">
     {% endblock %}
 </head>
@@ -15,7 +15,11 @@
     <nav>       
         <div class="nav-wrapper">
             <div class="container">
-                <a href="{{ path('homepage') }}" class="brand-logo">Blog nul</a>
+                <a href="{{ path('homepage') }}" class="brand-logo">Accueil</a>
+                <a href="{{ path('page_news') }}" class="brand-logo1">News</a>
+                <a href="{{ path('page_match') }}" class="brand-logo2">Matchs</a>
+                <a href="{{ path('video_add') }}" class="brand-logo3">Ajouter video</a>
+                <a href="{{ path('video_index') }}" class="brand-logo4">videos</a>
                       <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {% if app.user %}
                         {% if is_granted('ROLE_ADMIN') %}

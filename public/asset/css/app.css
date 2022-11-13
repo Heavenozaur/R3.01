@@ -32,6 +32,7 @@ nav {
 	flex-direction: column;
 	justify-content: flex-end;
 	padding: 20px;
+	
 }
 
 .article-card.image-card::after {
@@ -54,3 +55,4 @@ nav {
     color: #e04447;
     font-size: 12px;
 }
+

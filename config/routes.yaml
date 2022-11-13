@@ -10,7 +10,6 @@ article_show:
   path: /show/{id}
   controller: App\Controller\BlogController::show
 
-
 article_edit:
   path: /edit/{id}
   controller: App\Controller\BlogController::edit
@@ -22,6 +21,39 @@ article_remove:
   controller: App\Controller\BlogController::remove
   requirements:
     id: '\d+'
+
+page_news:
+  path: /news
+  controller: App\Controller\BlogController::news
+
+video_add:
+  path: /video/add
+  controller: App\Controller\BlogController::video_add
+
+page_match:
+  path: /match
+  controller: App\Controller\BlogController::match
+
+video_show:
+  path: /video/show/{id}
+  controller: App\Controller\BlogController::video_show
+
+video_remove:
+  path: video/remove/{id}
+  controller: App\Controller\BlogController::video_remove
+
+ 
+
+video_edit:
+  path: /video/edit/{id}
+  controller: App\Controller\BlogController::video_edit
+
+
+video_index:
+  path: /video
+  controller: App\Controller\BlogController::video_index
+
+
 
 admin:
   path: /admin
@@ -40,5 +72,5 @@ app_logout:
   controller: App\Controller\SecurityController::logout
 
 admin_remove_user:
-  path: /remove_user/{id}
+  path: /remove/user/{id}
   controller: App\Controller\RegistrationController::removeUser

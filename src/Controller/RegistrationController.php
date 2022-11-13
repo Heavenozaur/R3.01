@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Entity\Video;
+use App\Form\VideoType;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,16 +61,22 @@ class RegistrationController extends AbstractController
         $entityManager->flush();
 
 
+
         $articles = $doctrine->getRepository(Article::class)->findBy(
             [],
             ['last_update_date' => 'desc']
+        ); 
+        
+        $videos = $doctrine->getRepository(Video::class)->findBy(
+            ['isPublished' => true],
+            ['publication_date' => 'desc']
         );
 
         $users = $doctrine->getRepository(User::class)->findAll();
-
         return $this->render('admin/index.html.twig', [
             'articles' => $articles,
-            'users' => $users
+            'users' => $users,
+            'videos' => $videos,
         ]);
     }
 }

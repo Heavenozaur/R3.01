@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modifier{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <h4>Modifier la vidéo {{ video.title }}</h4>
+                {% if video.video is not null %}
+                    <embed src="{{ asset('uploads/videos/' ~ video.video) }}" autostart="false" height="300" width="300" /></embed>
+                {% endif %}
+            </div>
+        </div>
+        {% include "includes/video_form.html.twig" %}
+    </div>
+{% endblock %}

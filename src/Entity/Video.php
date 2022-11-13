@@ -4,15 +4,15 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ArticleRepository;
+use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\Entity(repositoryClass=VideoRepository::class)
  */
-class Article
+class Video
 {
     /**
      * @ORM\Id
@@ -24,7 +24,7 @@ class Article
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $picture;
+    private $video;
 
     /**
      * @Assert\NotBlank(message="Le titre ne peut pas être vide.")
@@ -53,7 +53,7 @@ class Article
     private $isPublished;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="Videos")
      */
     private $categories;
 
@@ -72,14 +72,14 @@ class Article
         return $this->id;
     }
 
-    public function getPicture(): ?string
+    public function getVideo(): ?string
     {
-        return $this->picture;
+        return $this->video;
     }
 
-    public function setPicture(?string $picture): self
+    public function setVideo(?string $video): self
     {
-        $this->picture = $picture;
+        $this->video = $video;
 
         return $this;
     }
@@ -173,5 +173,7 @@ class Article
     {
         return $this->isPublished;
     }
+
+
 
 }
