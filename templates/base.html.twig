@@ -16,20 +16,21 @@
         <div class="nav-wrapper">
             <div class="container">
                 <a href="{{ path('homepage') }}" class="brand-logo">Accueil</a>
-                <a href="{{ path('page_news') }}" class="brand-logo1">News</a>
-                <a href="{{ path('page_match') }}" class="brand-logo2">Matchs</a>
-                <a href="{{ path('video_add') }}" class="brand-logo3">Ajouter video</a>
-                <a href="{{ path('video_index') }}" class="brand-logo4">videos</a>
+                <a href="{{ path('page_news') }}" class="brand-logo">News</a>
+                <a href="{{ path('video_index') }}" class="brand-logo">Videos</a>
+                <a href="{{ path('contact_add') }}" class="brand-logo">Contact</a>
                       <ul id="nav-mobile" class="right hide-on-med-and-down">
                     {% if app.user %}
                         {% if is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('admin') }}">Admin</a></li>
                         {% endif %}
                         
-                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                        <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     {% else %}
-                        <li><a href="{{ path('app_login') }}">Login</a></li>
-                    {% endif %}
+                        <li><a href="{{ path('app_register') }}">Incription</a></li>
+                        <li><a href="{{ path('app_login') }}">Connexion</a></li>
+                        {% endif %}
+                        
                   </ul>
             </div>
         </div>

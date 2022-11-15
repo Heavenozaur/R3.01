@@ -3,8 +3,23 @@
 {% block title %}Accueil | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
+<div class="container1">
+        <div class="row1">
+            {% for video in videos %}
+                <div class="col s12 m4 l3">
+                    <div class="article-card">
+                    <a href="{{ path('video_show', {'id': video.id}) }}">
+                        <embed src="{{ asset('uploads/videos/' ~ video.video) }}" autostart="false" height="300" width="300" /></embed>
+                        {{ video.title }}
+                        <span class="date">{{ video.publicationDate|date('d/m/Y') }}</span>
+                        <h2></a></h2>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container2">
+        <div class="row2">
             {% for article in articles %}
                 <div class="col s12 m4 l3">
                     <div class="article-card">
@@ -12,6 +27,7 @@
                         <img src="{{ asset('uploads/' ~ article.picture) }}" class="responsive-img">
                         {{ article.title }}
                         <h2></a></h2>
+                        <span class="date">{{ article.publicationDate|date('d/m/Y') }}</span>
                     </div>
                 </div>
             {% endfor %}

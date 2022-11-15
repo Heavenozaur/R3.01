@@ -30,9 +30,13 @@ video_add:
   path: /video/add
   controller: App\Controller\BlogController::video_add
 
-page_match:
-  path: /match
-  controller: App\Controller\BlogController::match
+contact_add:
+  path: /contact/add
+  controller: App\Controller\BlogController::contact_add
+
+contact_index:
+  path: /contact
+  controller: App\Controller\BlogController::contact_index
 
 video_show:
   path: /video/show/{id}

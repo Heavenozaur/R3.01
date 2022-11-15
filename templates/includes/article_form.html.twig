@@ -8,6 +8,11 @@
         <span class="error">{{ form_errors(form.title) }}</span>
     </div>
 
+    <div class="form-group col-md-6">
+            {{ form_label(form.categories, 'Catégories') }}
+            {{ form_widget(form.categories, {'attr': {'class': 'selectpicker form-control'}}) }}
+        </div>
+
     <div class="input-field col s12 m12 l12">
         {{ form_widget(form.content, {'attr': {'class': 'materialize-textarea', 'placeholder': 'Le contenu de l\'article'}}) }}
     </div>

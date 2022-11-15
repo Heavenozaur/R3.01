@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Accueil commentaires| {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for contact in contacts %}
+                <div class="col s12 m4 l3">
+                    <div class="article-card10">
+                        {{ contact.username }}
+                        <span class="date">{{ contact.publicationDate|date('d/m/Y') }}</span>       
+                    </div>
+                    <div class="contact-content">{{ contact.content }}</div>
+                        <h2></h2>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

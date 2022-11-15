@@ -8,6 +8,9 @@ use App\Form\ArticleType;
 use App\Entity\Video;
 use App\Form\VideoType;
 use HltvApi\Client;
+use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Repository\ContactRepository;
 use App\Repository\VideoRepository;
 use App\Repository\ArticleRepository;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -37,7 +40,12 @@ class BlogController extends AbstractController
             ['publication_date' => 'desc']
         );
 
-        return $this->render('index.html.twig', ['articles' => $articles]);
+        $videos = $doctrine->getRepository(Video::class)->findBy(
+            ['isPublished' => true],
+            ['publication_date' => 'desc']
+        );
+
+        return $this->render('index.html.twig', ['articles' => $articles,'videos' => $videos]);
     }
 
 
@@ -407,23 +415,53 @@ class BlogController extends AbstractController
 
 
 
-
     /**
-     * @dataProvider additionalData
+     * @IsGranted("ROLE_ADMIN")
+     
+     * @Route("contact/show/", name="contact_show")
      */
-    public function match()
+    public function contact_show(Contact $contact)
     {
-
-        $client = new Client();
-
-        $matches = $client->ongoing();
-        
-        foreach ($matches as $match) {
-            echo $match->getTeam1();
-            echo $match->getTeam2();
-            echo $match->getMatchUrl();
-            echo $match->getMatchUrl();
-        }
-        return $data;
+        return $this->render('contact_show.html.twig', ['contact' => $contact]);
     }
+
+
+    
+    public function contact_add(Request $request, PersistenceManagerRegistry $doctrine)
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contact->setPublicationDate(new \DateTime());          
+
+            $em = $doctrine->getManager(); 
+            $em->persist($contact); 
+            $em->flush(); 
+
+            $contacts = $doctrine->getRepository(Contact::class)->findBy(
+                [],
+                ['publication_date' => 'desc']
+            );
+    
+            return $this->render('contact_index.html.twig', ['contacts' => $contacts]);
+        }
+
+        return $this->render('contact_add.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function contact_index(PersistenceManagerRegistry $doctrine)
+    {
+        $contacts = $doctrine->getRepository(Contact::class)->findBy(
+            [],
+            ['publication_date' => 'desc']
+        );
+
+        return $this->render('contact_index.html.twig', ['contacts' => $contacts]);
+    }
+    
+
 }

@@ -12,6 +12,7 @@
                         <img src="{{ asset('uploads/' ~ article.picture) }}" class="responsive-img">
                         {{ article.title }}
                         <h2></a></h2>
+                        <span class="date">{{ article.publicationDate|date('d/m/Y') }}</span>
                     </div>
                 </div>
             {% endfor %}

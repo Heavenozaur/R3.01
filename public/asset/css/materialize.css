@@ -2165,6 +2165,14 @@
     margin: 0;
   }
   
+  .article-card10{
+    margin-bottom: 1px;
+  }
+
+  .contact-content{
+    font-size: large;
+  }
+
   /**
    * Add the correct display in IE 9-.
    */
@@ -2338,6 +2346,7 @@
   audio,
   video {
     display: inline-block;
+    
   }
   
   /**
@@ -2722,8 +2731,8 @@
   
   img.responsive-img,
   video.responsive-video {
-    max-width: 100%;
-    height: auto;
+    width: 400px;
+    height: 300px;
   }
   
   .pagination li {
@@ -3446,7 +3455,21 @@
       width: 70%;
     }
   }
-  
+
+  @media only screen and (min-width: 993px) {
+    .container1 {
+      width: 20%;
+      display: inline-block;
+    }
+  }
+
+  @media only screen and (min-width: 993px) {
+    .container2 {
+      width: 40%;
+      display: inline-block;
+      position: absolute;
+    }
+  }
   .col .row {
     margin-left: -0.75rem;
     margin-right: -0.75rem;
@@ -3473,6 +3496,14 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
+  }
+
+  .row1 {
+    width: 60%;
+  }
+
+  .row2 {
+    width: 60%;
   }
   
   .row:after {
@@ -3918,11 +3949,12 @@
       right: auto;
     }
     .row .col.l3 {
-      width: 25%;
-      margin-left: auto;
+      width: 60%;
+
       left: auto;
       right: auto;
-    }
+      
+  }
     .row .col.l4 {
       width: 33.3333333333%;
       margin-left: auto;
@@ -4330,11 +4362,10 @@
   }
   
   nav .brand-logo {
-    position: absolute;
     color: #fff;
     display: inline-block;
     font-size: 2.1rem;
-    padding: 0;
+    margin-left: 10%;
   }
 
 
@@ -4342,7 +4373,7 @@
     color: #fff;
     display: inline-block;
     font-size: 2.1rem;
-    padding-left: 200px;
+    padding-left: 30%;
   
   }
   
@@ -4350,7 +4381,7 @@
     color: #fff;
     display: inline-block;
     font-size: 2.1rem;
-    padding-left: 100px;
+    padding-left: 10%;
     
   }
 
@@ -4359,7 +4390,7 @@
     color: #fff;
     display: inline-block;
     font-size: 2.1rem;
-    padding-left: 100px;
+    padding-left: 10%;
   
   }
 
@@ -7174,9 +7205,7 @@
   
   /* Select Field
      ========================================================================== */
-  select {
-    display: none;
-  }
+  
   
   select.browser-default {
     display: block;
@@ -7184,11 +7213,9 @@
   
   select {
     background-color: rgba(255, 255, 255, 0.9);
-    width: 100%;
     padding: 5px;
     border: 1px solid #f2f2f2;
     border-radius: 2px;
-    height: 3rem;
   }
   
   .select-label {

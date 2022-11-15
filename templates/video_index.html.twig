@@ -11,6 +11,7 @@
                     <a href="{{ path('video_show', {'id': video.id}) }}">
                         <embed src="{{ asset('uploads/videos/' ~ video.video) }}" autostart="false" height="300" width="300" /></embed>
                         {{ video.title }}
+                        <span class="date">{{ video.publicationDate|date('d/m/Y') }}</span>
                         <h2></a></h2>
                     </div>
                 </div>
